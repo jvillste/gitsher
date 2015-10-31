@@ -1,0 +1,16 @@
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 30px;
+}
+
+.comments-header {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 30px;
+  margin-top: 40px;
+}
+
+.file-download-link {
+    text-decoration: underline;
+    font-size: 30px;
+}

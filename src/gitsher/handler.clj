@@ -9,7 +9,8 @@
             [clj-jgit.querying :as git-querying]
             [clj-jgit.porcelain :as git-porcelain]
             [clj-jgit.internal :as git-internal]
-            [diff-match-patch.core :as dmp])
+            [diff-match-patch.core :as dmp]
+            [clojure.java.io :as io])
   (:import [java.io File]
            [java.net URLEncoder URLDecoder]))
 
@@ -29,6 +30,27 @@
 (defn open-git [repo-path]
   (git-porcelain/load-repo repo-path))
 
+(defn files [git]
+  (let [rev-walk (git-internal/new-rev-walk git)
+        commit-id (git-internal/resolve-object "HEAD" git)
+        ;;commit (.parseCommmit rev-walk  commit-id)
+        ;;tree (.getTree commit)
+        ]
+    commit-id
+    ;; (git-internal/new-tree-walk git commit-id )
+    )
+
+  )
+
+(let [git (git-porcelain/load-repo "../blog")
+      rev-walk (git-internal/new-rev-walk git)
+      commit-id (git-internal/resolve-object "HEAD" git)
+      ;;commit (.parseCommmit rev-walk  commit-id)
+      ;;tree (.getTree commit)
+      ]
+  
+  (git-internal/new-tree-walk git commit-id )
+  )
 
 
 
@@ -94,9 +116,8 @@
 (def files-directory "../blog")
 
 (defn get-metadata [file-name]
-  (with-open [rdr (clojure.java.io/reader (str files-directory "/" file-name))]
-    (try (edn/read-string (first (line-seq rdr)))
-         (catch Exception e))))
+  (try (edn/read-string (slurp (str files-directory "/" file-name)))
+       (catch Exception e)))
 
 (defn index []
   (page "index" ""
